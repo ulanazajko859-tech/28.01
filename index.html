@@ -3,160 +3,265 @@ html
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Наша история ❤️</title>
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icon-192.png">
     <meta name="theme-color" content="#7b4b8c">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: Arial; background: #f3e8f7; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 16px; }
-        .app { max-width: 420px; width: 100%; background: white; border-radius: 28px; padding: 24px; text-align: center; }
-        h1 { color: #7b4b8c; }
-        .btn { background: #a8d5b5; border: none; padding: 12px 24px; border-radius: 40px; font-size: 16px; cursor: pointer; margin: 6px; }
-        .btn:hover { background: #7dbb8c; }
-        .main-photo { width: 100%; border-radius: 18px; margin-bottom: 16px; }
-        .timer { background: #f7f0fa; border-radius: 18px; padding: 14px; display: flex; justify-content: space-around; margin: 10px 0; }
-        .timer-item { text-align: center; }
-        .timer-number { font-size: 22px; font-weight: bold; color: #7b4b8c; }
-        .timer-label { font-size: 12px; color: #b38cc4; }
-        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 12px 0; }
-        .menu-item { background: #f7f0fa; border-radius: 18px; padding: 16px; cursor: pointer; }
-        .menu-item:hover { background: #f0e6f5; }
-        .menu-item .emoji { font-size: 28px; display: block; }
-        .menu-item .label { font-size: 14px; color: #3d2f44; }
-        .page { display: none; }
+        body { font-family: 'Trebuchet MS', 'Lucida Sans Unicode', sans-serif; background: #f3e8f7; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 16px; }
+        .app { max-width: 420px; width: 100%; background: #ffffff; border-radius: 28px; box-shadow: 0 12px 40px rgba(123, 75, 140, 0.12); overflow: hidden; padding: 24px 18px 28px; text-align: center; min-height: 560px; }
+        .page { display: none; animation: fadeIn 0.4s ease; }
         .page.active { display: block; }
-        .hidden { visibility: hidden; }
+        @keyframes fadeIn { 0% { opacity: 0; transform: translateY(8px); } 100% { opacity: 1; transform: translateY(0); } }
+        .emoji-big { font-size: 44px; display: block; margin-bottom: 4px; }
+        h1 { font-size: 26px; font-weight: 700; color: #7b4b8c; margin-bottom: 2px; }
+        .subtitle { font-size: 16px; color: #b38cc4; font-weight: 500; margin-bottom: 12px; }
+        .section-desc { font-size: 13px; color: #b8a0c4; margin-bottom: 12px; }
+        .date { font-size: 14px; color: #b8a0c4; margin-bottom: 14px; }
+        .description { font-size: 15px; line-height: 1.6; color: #3d2f44; background: #f7f0fa; padding: 16px; border-radius: 18px; margin-bottom: 16px; text-align: left; }
+        .timer { background: #f7f0fa; border-radius: 18px; padding: 14px 10px; margin: 10px 0 16px; display: flex; justify-content: space-around; flex-wrap: wrap; }
+        .timer-item { text-align: center; min-width: 60px; }
+        .timer-number { font-size: 22px; font-weight: 700; color: #7b4b8c; display: block; line-height: 1.2; }
+        .timer-label { font-size: 12px; color: #b38cc4; text-transform: uppercase; letter-spacing: 0.5px; }
+        .calendar { background: #f7f0fa; border-radius: 18px; padding: 14px 10px; margin: 8px 0 14px; }
+        .calendar-header { display: flex; justify-content: space-between; font-weight: 600; color: #7b4b8c; margin-bottom: 10px; }
+        .calendar-weekdays { display: grid; grid-template-columns: repeat(7, 1fr); font-size: 13px; font-weight: 600; color: #b38cc4; margin-bottom: 6px; }
+        .calendar-days { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+        .calendar-day { padding: 6px 0; font-size: 14px; border-radius: 30px; background: transparent; color: #3d2f44; }
+        .calendar-day.highlight { background: #c62828; color: white; font-weight: 700; border-radius: 30px; position: relative; }
+        .calendar-day.highlight::after { content: "❤️"; font-size: 10px; display: block; margin-top: -2px; }
+        .calendar-day.other-month { color: #ccc; }
+        .nav-btn { background: #a8d5b5; color: #2e3d30; border: none; padding: 12px 18px; border-radius: 40px; font-size: 15px; font-weight: 600; cursor: pointer; transition: 0.25s; font-family: 'Trebuchet MS', sans-serif; box-shadow: 0 4px 12px rgba(125, 187, 140, 0.2); margin: 4px 2px; }
+        .nav-btn:hover { background: #7dbb8c; transform: scale(0.97); }
+        .nav-btn.outline { background: transparent; color: #7b4b8c; box-shadow: none; border: 2px solid #c9b1d6; }
+        .nav-btn.outline:hover { background: #f0e6f5; }
+        .nav-btn.hidden { visibility: hidden; }
+        .nav-buttons { display: flex; justify-content: space-between; gap: 10px; margin-top: 18px; }
+        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 12px 0; }
+        .menu-item { background: #f7f0fa; border-radius: 18px; padding: 16px 8px; cursor: pointer; transition: 0.2s; border: 2px solid transparent; }
+        .menu-item:hover { border-color: #c9b1d6; background: #f0e6f5; }
+        .menu-item .emoji { font-size: 28px; display: block; }
+        .menu-item .label { font-size: 14px; color: #3d2f44; margin-top: 4px; }
+        .carousel { position: relative; margin: 10px 0 14px; }
+        .carousel-images { display: flex; overflow: hidden; border-radius: 18px; background: #f7f0fa; min-height: 200px; align-items: center; justify-content: center; flex-wrap: wrap; gap: 4px; position: relative; }
+        .carousel-images img { width: 100%; max-height: 240px; object-fit: cover; display: none; border-radius: 18px; }
+        .carousel-images img.active { display: block; }
+        .carousel-arrows { display: flex; justify-content: space-between; margin-top: 8px; }
+        .carousel-arrows button { background: #c9b1d6; border: none; color: white; font-size: 20px; padding: 4px 16px; border-radius: 30px; cursor: pointer; transition: 0.2s; }
+        .carousel-arrows button:hover { background: #b38cc4; }
+        .upload-btn { background: #c62828; color: white; border: none; padding: 12px 20px; border-radius: 40px; font-size: 15px; font-weight: 600; cursor: pointer; transition: 0.25s; font-family: 'Trebuchet MS', sans-serif; box-shadow: 0 4px 12px rgba(198, 40, 40, 0.2); margin: 8px 0; width: 100%; }
+        .upload-btn:hover { background: #b71c1c; transform: scale(0.97); }
+        .upload-btn.green { background: #a8d5b5; color: #2e3d30; box-shadow: 0 4px 12px rgba(125, 187, 140, 0.2); }
+        .upload-btn.green:hover { background: #7dbb8c; }
+        .delete-btn { background: #c9b1d6; color: #3d2f44; border: none; padding: 6px 14px; border-radius: 30px; font-size: 12px; font-weight: 600; cursor: pointer; transition: 0.25s; margin: 2px; }
+        .delete-btn:hover { background: #b38cc4; }
+        .word-item { background: #f7f0fa; border-radius: 18px; padding: 14px; margin-bottom: 10px; text-align: left; position: relative; }
+        .word-item .text { font-size: 15px; line-height: 1.6; color: #3d2f44; padding-right: 60px; }
+        .word-item .delete-btn { position: absolute; top: 12px; right: 12px; }
+        .words-container { margin: 12px 0; max-height: 300px; overflow-y: auto; }
+        .input-url { width: 100%; padding: 10px; border: 2px solid #c9b1d6; border-radius: 18px; font-family: 'Trebuchet MS', sans-serif; font-size: 14px; color: #3d2f44; background: #fcfaff; margin-bottom: 10px; }
+        .input-url:focus { outline: none; border-color: #7b4b8c; }
+        .loading { color: #b38cc4; padding: 20px; }
+        .player { margin: 10px 0; }
+        .player iframe { width: 100%; border-radius: 18px; border: none; height: 60px; }
+        .quiz-card { background: #f7f0fa; border-radius: 18px; padding: 16px; margin: 12px 0; }
+        .quiz-question { font-size: 16px; font-weight: 600; color: #7b4b8c; margin-bottom: 12px; }
+        .quiz-option { background: white; border: 2px solid #c9b1d6; border-radius: 40px; padding: 10px; margin: 8px 0; cursor: pointer; transition: 0.2s; }
+        .quiz-option:hover { border-color: #7b4b8c; background: #f0e6f5; }
+        .quiz-option.correct { border-color: #7dbb8c; background: #e6f5ea; }
+        .quiz-option.wrong { border-color: #c62828; background: #fce4ec; }
+        .quiz-option.disabled { pointer-events: none; opacity: 0.6; }
+        .quiz-result { font-size: 18px; font-weight: 700; margin: 12px 0; }
+        .quiz-result.correct { color: #7dbb8c; }
+        .quiz-result.wrong { color: #c62828; }
+        .place-card { background: white; border-radius: 18px; padding: 12px; margin: 8px 0; display: flex; align-items: center; gap: 12px; border: 2px solid #f0e6f5; }
+        .place-card .emoji { font-size: 24px; }
+        .place-card .info { text-align: left; flex: 1; }
+        .place-card .info .name { font-weight: 600; color: #7b4b8c; }
+        .place-card .info .desc { font-size: 13px; color: #b38cc4; }
+        .main-photo { width: 100%; border-radius: 18px; margin-bottom: 16px; border: 2px solid #f0e6f5; }
+        .question-counter { font-size: 14px; color: #b8a0c4; margin-bottom: 8px; }
+        .compatibility-big { font-size: 48px; font-weight: 700; color: #c62828; }
+        .compatibility-phrase { font-size: 16px; color: #3d2f44; margin: 12px 0; }
+        .answer-compare { background: #f7f0fa; border-radius: 18px; padding: 12px; margin-bottom: 12px; text-align: left; }
+        .answer-compare .q { font-weight: 600; color: #7b4b8c; margin-bottom: 4px; }
+        .answer-compare .answers { display: flex; justify-content: space-between; font-size: 14px; }
+        .answer-compare .p1 { color: #c62828; }
+        .answer-compare .p2 { color: #7dbb8c; }
+        .player-select-btn { padding: 12px; border-radius: 40px; font-size: 15px; font-weight: 600; cursor: pointer; border: none; width: 100%; margin-bottom: 8px; }
+        .player-select-btn.you { background: #c62828; color: white; }
+        .player-select-btn.me { background: #a8d5b5; color: #2e3d30; }
     </style>
 </head>
 <body>
 
 <div class="app">
 
-    <!-- ГЛАВНАЯ -->
+    <!-- ===== СТРАНИЦА 1: ГЛАВНАЯ ===== -->
     <div class="page active" id="page1">
         <img class="main-photo" src="https://i.ibb.co/WvtcsYRx/photo-2026-08-10-16-30-19.jpg" alt="Наше фото">
-        <h1>❤️ Наша история</h1>
-        <p style="color:#b38cc4;">4 года вместе ❤️</p>
-        <div class="timer">
-            <div class="timer-item"><span class="timer-number" id="years">0</span><div class="timer-label">лет</div></div>
-            <div class="timer-item"><span class="timer-number" id="months">0</span><div class="timer-label">мес.</div></div>
-            <div class="timer-item"><span class="timer-number" id="days">0</span><div class="timer-label">дней</div></div>
-            <div class="timer-item"><span class="timer-number" id="hours">0</span><div class="timer-label">часов</div></div>
+        <span class="emoji-big">❤️</span>
+        <h1>Наша история</h1>
+        <div class="subtitle">4 года вместе ❤️</div>
+        <div class="timer" id="timer">
+            <div class="timer-item"><span class="timer-number" id="years">0</span><span class="timer-label">лет</span></div>
+            <div class="timer-item"><span class="timer-number" id="months">0</span><span class="timer-label">мес.</span></div>
+            <div class="timer-item"><span class="timer-number" id="days">0</span><span class="timer-label">дней</span></div>
+            <div class="timer-item"><span class="timer-number" id="hours">0</span><span class="timer-label">часов</span></div>
         </div>
-        <button class="btn" onclick="goToPage(2)" style="width:100%;">📋 Меню</button>
+        <div class="calendar" id="calendar"></div>
+        <button class="nav-btn" onclick="goToPage(2)" style="width:100%; margin-top:4px;">📋 Меню</button>
     </div>
 
-    <!-- МЕНЮ -->
+    <!-- ===== СТРАНИЦА 2: МЕНЮ ===== -->
     <div class="page" id="page2">
-        <h1>📋 Меню</h1>
-        <p style="color:#b38cc4;">Выбери раздел</p>
+        <span class="emoji-big">📋</span>
+        <h1>Меню</h1>
+        <div class="subtitle">Выбери раздел</div>
         <div class="menu-grid">
             <div class="menu-item" onclick="goToPage(3)"><span class="emoji">📖</span><span class="label">Наша история</span></div>
             <div class="menu-item" onclick="goToPage(4)"><span class="emoji">📸</span><span class="label">Фото</span></div>
             <div class="menu-item" onclick="goToPage(5)"><span class="emoji">🎵</span><span class="label">Плейлист</span></div>
-            <div class="menu-item" onclick="goToPage(6)"><span class="emoji">💌</span><span class="label">Тёплые слова</span></div>
+            <div class="menu-item" onclick="goToPage(6)"><span class="emoji">💌</span><span class="label">Наши тёплые слова</span></div>
             <div class="menu-item" onclick="goToPage(7)"><span class="emoji">💞</span><span class="label">Викторина</span></div>
             <div class="menu-item" onclick="goToPage(8)"><span class="emoji">📍</span><span class="label">Наши места</span></div>
         </div>
-        <button class="btn" onclick="goToPage(1)">← На главную</button>
+        <div class="nav-buttons">
+            <button class="nav-btn hidden">Назад</button>
+            <button class="nav-btn outline" onclick="goToPage(1)">← На главную</button>
+        </div>
     </div>
 
-    <!-- НАША ИСТОРИЯ -->
+    <!-- ===== СТРАНИЦА 3: НАША ИСТОРИЯ ===== -->
     <div class="page" id="page3">
-        <h1>📖 Наша история</h1>
-        <p style="color:#b38cc4;">Как всё начиналось ❤️</p>
-        <div style="background:#f7f0fa; border-radius:18px; padding:16px; text-align:left; margin:12px 0;">
+        <span class="emoji-big">📖</span>
+        <h1>Наша история</h1>
+        <div class="section-desc">Как всё начиналось ❤️</div>
+        <div class="description">
             Мы познакомились ещё в школе, но связала нас зима и шапка ❤️<br><br>
-            С тех пор прошло 4 года, и каждый день с тобой — это маленькое чудо.
+            С тех пор прошло 4 года, и каждый день с тобой — это маленькое чудо.<br>
+            Ты — моя опора, моя радость и мой дом.
         </div>
-        <button class="btn" onclick="goToPage(2)">← Меню</button>
-        <button class="btn" onclick="goToPage(4)">Дальше →</button>
+        <div class="nav-buttons">
+            <button class="nav-btn outline" onclick="goToPage(2)">← Меню</button>
+            <button class="nav-btn" onclick="goToPage(4)">Дальше →</button>
+        </div>
     </div>
 
-    <!-- ФОТО -->
+    <!-- ===== СТРАНИЦА 4: ФОТО ===== -->
     <div class="page" id="page4">
-        <h1>📸 Наши фото</h1>
-        <p style="color:#b38cc4;">Тёплые мгновения 📷</p>
-        <div style="padding:30px; background:#f7f0fa; border-radius:18px; color:#b38cc4;">📸 Здесь будут ваши фото</div>
-        <button class="btn" onclick="goToPage(2)">← Меню</button>
-        <button class="btn" onclick="goToPage(5)">Дальше →</button>
+        <span class="emoji-big">📸</span>
+        <h1>Наши фото</h1>
+        <div class="section-desc">Тёплые мгновения в картинках 📷</div>
+        <div class="carousel-wrapper">
+            <div class="carousel" id="carousel">
+                <div class="carousel-images" id="carouselImages"></div>
+                <div class="carousel-arrows">
+                    <button onclick="prevSlide()">‹</button>
+                    <button onclick="nextSlide()">›</button>
+                </div>
+            </div>
+        </div>
+        <div style="font-size:14px; color:#b38cc4; margin:8px 0;">💡 Добавь ссылки на фото в массив photoUrls</div>
+        <div class="nav-buttons">
+            <button class="nav-btn outline" onclick="goToPage(2)">← Меню</button>
+            <button class="nav-btn" onclick="goToPage(5)">Дальше →</button>
+        </div>
     </div>
 
-    <!-- ПЛЕЙЛИСТ -->
+    <!-- ===== СТРАНИЦА 5: ПЛЕЙЛИСТ ===== -->
     <div class="page" id="page5">
-        <h1>🎵 Наш плейлист</h1>
-        <p style="color:#b38cc4;">Песня для нас 🎧</p>
-        <iframe src="https://vocaroo.com/embed/1bZvrmJ4ZYAC?autoplay=0" style="width:100%; border-radius:18px; border:none; height:60px;"></iframe>
-        <p style="margin:12px 0; background:#f7f0fa; border-radius:18px; padding:12px;">🥰 Каждый раз, когда звучит эта мелодия, я улыбаюсь и вспоминаю тебя ❤️</p>
-        <button class="btn" onclick="goToPage(2)">← Меню</button>
-        <button class="btn" onclick="goToPage(6)">Дальше →</button>
+        <span class="emoji-big">🎵</span>
+        <h1>Наш плейлист</h1>
+        <div class="section-desc">Песня, которая звучит в наших сердцах 🎧</div>
+        <div class="player">
+            <iframe src="https://vocaroo.com/embed/1bZvrmJ4ZYAC?autoplay=0"></iframe>
+        </div>
+        <div class="description" style="text-align:center;">
+            🥰 Каждый раз, когда звучит эта мелодия, я улыбаюсь и вспоминаю тебя ❤️
+        </div>
+        <div class="nav-buttons">
+            <button class="nav-btn outline" onclick="goToPage(2)">← Меню</button>
+            <button class="nav-btn" onclick="goToPage(6)">Дальше →</button>
+        </div>
     </div>
 
-    <!-- ТЁПЛЫЕ СЛОВА -->
+    <!-- ===== СТРАНИЦА 6: НАШИ ТЁПЛЫЕ СЛОВА ===== -->
     <div class="page" id="page6">
-        <h1>💌 Тёплые слова</h1>
-        <p style="color:#b38cc4;">Наши пожелания 💕</p>
-        <div id="wordsContainer" style="margin:12px 0; max-height:200px; overflow-y:auto;"></div>
-        <textarea id="wordsInput" rows="2" style="width:100%; padding:10px; border:2px solid #c9b1d6; border-radius:18px; font-size:14px; margin-bottom:8px;" placeholder="Напиши своё пожелание..."></textarea>
-        <button class="btn" onclick="addWord()" style="width:100%; background:#c62828; color:white;">💌 Отправить</button>
+        <span class="emoji-big">💌</span>
+        <h1>Наши тёплые слова</h1>
+        <div class="section-desc">Здесь живут наши пожелания и нежности 💕</div>
+        <div class="words-container" id="wordsContainer">
+            <div class="loading">💌 Здесь появятся ваши тёплые слова...</div>
+        </div>
+        <textarea class="input-url" id="wordsInput" rows="2" placeholder="Напиши своё пожелание..."></textarea>
+        <button class="upload-btn green" onclick="addWord()">💌 Отправить</button>
         <div id="wordsStatus"></div>
-        <button class="btn" onclick="goToPage(2)">← Меню</button>
-        <button class="btn" onclick="goToPage(7)">Дальше →</button>
+        <div class="nav-buttons">
+            <button class="nav-btn outline" onclick="goToPage(2)">← Меню</button>
+            <button class="nav-btn" onclick="goToPage(7)">Дальше →</button>
+        </div>
     </div>
 
-    <!-- ВИКТОРИНА -->
+    <!-- ===== СТРАНИЦА 7: ВИКТОРИНА ===== -->
     <div class="page" id="page7">
-        <h1>💞 Викторина</h1>
-        <p style="color:#b38cc4;">Скоро будет готово 🧠</p>
-        <div style="padding:30px; background:#f7f0fa; border-radius:18px; color:#b38cc4;">💞 Викторина будет добавлена позже</div>
-        <button class="btn" onclick="goToPage(2)">← Меню</button>
-        <button class="btn" onclick="goToPage(8)">Дальше →</button>
+        <span class="emoji-big">💞</span>
+        <h1>Викторина</h1>
+        <div class="section-desc">Ответьте на 10 вопросов и сравните ответы 🧠</div>
+
+        <div id="playerSelect" class="quiz-card">
+            <div style="font-size:14px; margin-bottom:12px; color:#7b4b8c;">Кто отвечает?</div>
+            <button class="player-select-btn you" onclick="selectPlayer('you')">👩 Я</button>
+            <button class="player-select-btn me" onclick="selectPlayer('me')">👨 Он/Она</button>
+        </div>
+
+        <div id="quizContainer" class="quiz-card" style="display: none;"></div>
+        <div id="finalResult" class="quiz-card" style="display: none;"></div>
+
+        <div class="nav-buttons">
+            <button class="nav-btn outline" onclick="goToPage(2)">← Меню</button>
+            <button class="nav-btn" onclick="goToPage(8)">Дальше →</button>
+        </div>
     </div>
 
-    <!-- НАШИ МЕСТА -->
+    <!-- ===== СТРАНИЦА 8: НАШИ МЕСТА ===== -->
     <div class="page" id="page8">
-        <h1>📍 Наши места</h1>
-        <p style="color:#b38cc4;">Где мы были счастливы 🌍</p>
-        <div style="background:white; border-radius:18px; padding:12px; margin:8px 0; border:2px solid #f0e6f5; text-align:left;">
-            <span style="font-size:24px;">🏫</span> <b>Школа</b> — Здесь мы встретились
+        <span class="emoji-big">📍</span>
+        <h1>Наши места</h1>
+        <div class="section-desc">Где мы были счастливы 🌍</div>
+        <div class="place-card">
+            <span class="emoji">🏫</span>
+            <div class="info"><div class="name">Школа</div><div class="desc">Здесь мы встретились</div></div>
         </div>
-        <div style="background:white; border-radius:18px; padding:12px; margin:8px 0; border:2px solid #f0e6f5; text-align:left;">
-            <span style="font-size:24px;">🌳</span> <b>Городской парк</b> — Первая прогулка
+        <div class="place-card">
+            <span class="emoji">🌳</span>
+            <div class="info"><div class="name">Городской парк</div><div class="desc">Первая прогулка</div></div>
         </div>
-        <div style="background:white; border-radius:18px; padding:12px; margin:8px 0; border:2px solid #f0e6f5; text-align:left;">
-            <span style="font-size:24px;">☕</span> <b>Кафе "Встреча"</b> — Первое свидание
+        <div class="place-card">
+            <span class="emoji">☕</span>
+            <div class="info"><div class="name">Кафе "Встреча"</div><div class="desc">Наше первое свидание</div></div>
         </div>
-        <div style="background:white; border-radius:18px; padding:12px; margin:8px 0; border:2px solid #f0e6f5; text-align:left;">
-            <span style="font-size:24px;">🏠</span> <b>Твой дом</b> — Где я поняла, что люблю
+        <div class="place-card">
+            <span class="emoji">🏠</span>
+            <div class="info"><div class="name">Твой дом</div><div class="desc">Где я поняла, что люблю</div></div>
         </div>
-        <button class="btn" onclick="goToPage(2)">← Меню</button>
+        <div class="nav-buttons">
+            <button class="nav-btn outline" onclick="goToPage(2)">← Меню</button>
+            <button class="nav-btn hidden">Дальше</button>
+        </div>
     </div>
 
 </div>
 
+<script src="https://www.gstatic.com/firebasejs/12.17.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.17.1/firebase-database-compat.js"></script>
+
 <script>
-    function goToPage(n) {
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.getElementById('page' + n).classList.add('active');
-    }
-
-    function updateTimer() {
-        const start = new Date('2023-01-28T00:00:00');
-        const now = new Date();
-        let diff = (now - start) / 1000;
-        document.getElementById('years').textContent = Math.floor(diff / (365.25 * 24 * 3600));
-        diff %= 365.25 * 24 * 3600;
-        document.getElementById('months').textContent = Math.floor(diff / (30.44 * 24 * 3600));
-        diff %= 30.44 * 24 * 3600;
-        document.getElementById('days').textContent = Math.floor(diff / (24 * 3600));
-        diff %= 24 * 3600;
-        document.getElementById('hours').textContent = Math.floor(diff / 3600);
-    }
-    updateTimer();
-    setInterval(updateTimer, 60000);
-
+    // ==============================================================
+    // FIREBASE
+    // ==============================================================
     const firebaseConfig = {
         apiKey: "AIzaSyCNY4JjnLGt5Nr0h3EKeQ3pqq6DOKpLJos",
         authDomain: "love-history-eb47d.firebaseapp.com",
@@ -170,30 +275,142 @@ html
     firebase.initializeApp(firebaseConfig);
     const database = firebase.database();
 
+    // ==============================================================
+    // НАВИГАЦИЯ
+    // ==============================================================
+    function goToPage(n) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById('page' + n).classList.add('active');
+    }
+
+    // ==============================================================
+    // ТАЙМЕР
+    // ==============================================================
+    function updateTimer() {
+        const start = new Date('2023-01-28T00:00:00');
+        const now = new Date();
+        let diff = (now - start) / 1000;
+        const years = Math.floor(diff / (365.25 * 24 * 3600));
+        diff -= years * 365.25 * 24 * 3600;
+        const months = Math.floor(diff / (30.44 * 24 * 3600));
+        diff -= months * 30.44 * 24 * 3600;
+        const days = Math.floor(diff / (24 * 3600));
+        diff -= days * 24 * 3600;
+        const hours = Math.floor(diff / 3600);
+        document.getElementById('years').textContent = years;
+        document.getElementById('months').textContent = months;
+        document.getElementById('days').textContent = days;
+        document.getElementById('hours').textContent = hours;
+    }
+    updateTimer();
+    setInterval(updateTimer, 60000);
+
+    // ==============================================================
+    // КАЛЕНДАРЬ
+    // ==============================================================
+    function renderCalendar() {
+        const year = 2023, month = 0;
+        const firstDay = new Date(year, month, 1).getDay();
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        let startOffset = firstDay === 0 ? 6 : firstDay - 1;
+        let html = `
+            <div style="font-size:14px; color:#7b4b8c; font-weight:600; margin-bottom:8px;">❤️ В этот день началась наша история ❤️</div>
+            <div class="calendar-header"><span>Январь ${year}</span></div>
+            <div class="calendar-weekdays"><span>Пн</span><span>Вт</span><span>Ср</span><span>Чт</span><span>Пт</span><span>Сб</span><span>Вс</span></div>
+            <div class="calendar-days">
+        `;
+        for (let i = 0; i < startOffset; i++) html += `<div class="calendar-day other-month"></div>`;
+        for (let d = 1; d <= daysInMonth; d++) {
+            const isHighlight = d === 28;
+            html += `<div class="${isHighlight ? 'calendar-day highlight' : 'calendar-day'}">${d}</div>`;
+        }
+        html += `</div>`;
+        document.getElementById('calendar').innerHTML = html;
+    }
+    renderCalendar();
+
+    // ==============================================================
+    // КАРУСЕЛЬ
+    // ==============================================================
+    let currentSlide = 0;
+    const photoUrls = [
+        // ★★★★★ ВСТАВЬ ССЫЛКИ НА СВОИ ФОТО ★★★★★
+        // "https://i.ibb.co/твоя-ссылка-1.jpg",
+        // "https://i.ibb.co/твоя-ссылка-2.jpg",
+    ];
+
+    function updateCarousel() {
+        const container = document.getElementById('carouselImages');
+        container.innerHTML = '';
+        if (photoUrls.length === 0) {
+            container.innerHTML = '<div style="padding:40px 0; color:#b38cc4;">Добавьте фото в код 📸</div>';
+            return;
+        }
+        photoUrls.forEach((url, index) => {
+            const wrapper = document.createElement('div');
+            wrapper.style.position = 'relative';
+            wrapper.style.width = '100%';
+            const img = document.createElement('img');
+            img.src = url;
+            img.className = index === 0 ? 'active' : '';
+            img.alt = 'Наше фото';
+            wrapper.appendChild(img);
+            container.appendChild(wrapper);
+        });
+        currentSlide = 0;
+        showSlide(0);
+    }
+
+    function showSlide(index) {
+        const wrappers = document.querySelectorAll('#carouselImages > div');
+        wrappers.forEach((wrapper, i) => {
+            const img = wrapper.querySelector('img');
+            if (img) img.classList.toggle('active', i === index);
+        });
+    }
+
+    function nextSlide() {
+        if (photoUrls.length === 0) return;
+        currentSlide = (currentSlide + 1) % photoUrls.length;
+        showSlide(currentSlide);
+    }
+
+    function prevSlide() {
+        if (photoUrls.length === 0) return;
+        currentSlide = (currentSlide - 1 + photoUrls.length) % photoUrls.length;
+        showSlide(currentSlide);
+    }
+
+    // ==============================================================
+    // НАШИ ТЁПЛЫЕ СЛОВА
+    // ==============================================================
     function loadWords() {
         const container = document.getElementById('wordsContainer');
         database.ref('words').on('value', (snapshot) => {
             container.innerHTML = '';
             const data = snapshot.val();
             if (!data) {
-                container.innerHTML = '<div style="color:#b38cc4;">💌 Здесь появятся ваши тёплые слова...</div>';
+                container.innerHTML = '<div class="loading">💌 Здесь появятся ваши тёплые слова...</div>';
                 return;
             }
             const keys = Object.keys(data).reverse();
             keys.forEach(key => {
+                const item = document.createElement('div');
+                item.className = 'word-item';
                 const text = data[key].text || data[key];
-                const div = document.createElement('div');
-                div.style.cssText = 'background:#f7f0fa; border-radius:18px; padding:12px; margin-bottom:8px; text-align:left;';
-                div.innerHTML = `${text} <button onclick="deleteWord('${key}')" style="float:right; background:#c9b1d6; border:none; border-radius:30px; padding:4px 12px; cursor:pointer;">🗑️</button><div style="clear:both;"></div>`;
-                container.appendChild(div);
+                item.innerHTML = `
+                    <span class="text">${text}</span>
+                    <button class="delete-btn" onclick="deleteWord('${key}')">🗑️</button>
+                `;
+                container.appendChild(item);
             });
         });
     }
 
     function addWord() {
         const input = document.getElementById('wordsInput');
-        const status = document.getElementById('wordsStatus');
         const text = input.value.trim();
+        const status = document.getElementById('wordsStatus');
         if (!text) {
             status.textContent = '❌ Напиши что-нибудь!';
             status.style.color = '#c62828';
@@ -205,7 +422,7 @@ html
                 status.style.color = '#7dbb8c';
                 input.value = '';
             })
-            .catch(error => {
+            .catch((error) => {
                 status.textContent = '❌ Ошибка: ' + error.message;
                 status.style.color = '#c62828';
             });
@@ -217,11 +434,286 @@ html
         }
     }
 
-    loadWords();
-</script>
+    // ==============================================================
+    // ВИКТОРИНА
+    // ==============================================================
+    const allQuestions = [];
 
-<script src="https://www.gstatic.com/firebasejs/12.17.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/12.17.1/firebase-database-compat.js"></script>
+    // Закрытые вопросы
+    const closedQuestions = [
+        "Ты чувствуешь, что я понимаю тебя без слов?",
+        "Ты боишься, что наши отношения могут однажды исчезнуть?",
+        "Ты считаешь, что мы достаточно откровенны друг с другом?",
+        "Тебе бывает одиноко даже рядом со мной?",
+        "Ты веришь, что я всегда буду на твоей стороне?",
+        "Ты готов(а) простить мне самую страшную ошибку?",
+        "Ты боишься, что наши чувства со временем остынут?",
+        "Ты чувствуешь, что я тебя достаточно хвалю?",
+        "Ты хотел(а) бы, чтобы мы больше времени проводили порознь?",
+        "Ты веришь, что мы сможем сохранить страсть через 20 лет?"
+    ];
+
+    closedQuestions.forEach(q => {
+        allQuestions.push({
+            type: 'closed',
+            question: q,
+            options: ["Да", "Нет", "Не знаю"]
+        });
+    });
+
+    let currentPlayer = null;
+    let currentQuestionIndex = 0;
+    let playerAnswers = [];
+    let quizActive = false;
+    let currentQuestions = [];
+
+    function getRandomQuestions() {
+        const shuffled = [...allQuestions].sort(() => 0.5 - Math.random());
+        return shuffled.slice(0, 10);
+    }
+
+    function selectPlayer(player) {
+        currentPlayer = player;
+        playerAnswers = [];
+        currentQuestionIndex = 0;
+        quizActive = true;
+
+        document.getElementById('playerSelect').style.display = 'none';
+        document.getElementById('quizContainer').style.display = 'block';
+        document.getElementById('finalResult').style.display = 'none';
+
+        const newQuestions = getRandomQuestions();
+        currentQuestions = newQuestions;
+
+        database.ref('quiz').set({
+            sessionId: 'session_' + Date.now(),
+            questions: newQuestions,
+            player1: player,
+            player1Answers: [],
+            player2: null,
+            player2Answers: [],
+            player1Completed: false,
+            player2Completed: false,
+            started: true
+        });
+
+        renderQuiz();
+        listenQuizUpdates();
+    }
+
+    function renderQuiz() {
+        const container = document.getElementById('quizContainer');
+        if (!quizActive || currentQuestionIndex >= currentQuestions.length) {
+            return;
+        }
+
+        const q = currentQuestions[currentQuestionIndex];
+        let html = `
+            <div class="question-counter">Вопрос ${currentQuestionIndex + 1} из 10</div>
+            <div class="quiz-question">${q.question}</div>
+        `;
+
+        if (q.type === 'closed') {
+            html += `<div style="margin: 12px 0;">`;
+            q.options.forEach(option => {
+                html += `
+                    <button class="quiz-option" onclick="submitClosedAnswer('${option}')">${option}</button>
+                `;
+            });
+            html += `</div>`;
+        } else {
+            html += `
+                <textarea id="answerInput" class="input-url" rows="2" placeholder="Напиши свой ответ..." style="margin-top: 12px;"></textarea>
+                <button class="upload-btn green" onclick="submitOpenAnswer()" style="margin-top: 12px;">✅ Ответить</button>
+            `;
+        }
+
+        html += `<div id="quizResult" class="quiz-result"></div>`;
+        container.innerHTML = html;
+    }
+
+    function submitClosedAnswer(answer) {
+        const resultDiv = document.getElementById('quizResult');
+        const options = document.querySelectorAll('.quiz-option');
+        options.forEach(opt => opt.classList.add('disabled'));
+
+        playerAnswers.push(answer);
+        const playerKey = currentPlayer === 'you' ? 'player1Answers' : 'player2Answers';
+        database.ref('quiz/' + playerKey).set(playerAnswers);
+
+        resultDiv.textContent = '✅ Ответ принят!';
+        resultDiv.className = 'quiz-result correct';
+
+        setTimeout(() => {
+            currentQuestionIndex++;
+            if (currentQuestionIndex >= currentQuestions.length) {
+                const completedKey = currentPlayer === 'you' ? 'player1Completed' : 'player2Completed';
+                database.ref('quiz/' + completedKey).set(true);
+                checkBothCompleted();
+            } else {
+                renderQuiz();
+            }
+        }, 800);
+    }
+
+    function submitOpenAnswer() {
+        const input = document.getElementById('answerInput');
+        const answer = input.value.trim();
+        const resultDiv = document.getElementById('quizResult');
+
+        if (!answer) {
+            resultDiv.textContent = '❌ Напиши ответ!';
+            resultDiv.className = 'quiz-result wrong';
+            return;
+        }
+
+        playerAnswers.push(answer);
+        input.disabled = true;
+
+        const playerKey = currentPlayer === 'you' ? 'player1Answers' : 'player2Answers';
+        database.ref('quiz/' + playerKey).set(playerAnswers);
+
+        resultDiv.textContent = '✅ Ответ принят!';
+        resultDiv.className = 'quiz-result correct';
+
+        setTimeout(() => {
+            currentQuestionIndex++;
+            if (currentQuestionIndex >= currentQuestions.length) {
+                const completedKey = currentPlayer === 'you' ? 'player1Completed' : 'player2Completed';
+                database.ref('quiz/' + completedKey).set(true);
+                checkBothCompleted();
+            } else {
+                renderQuiz();
+            }
+        }, 800);
+    }
+
+    function checkBothCompleted() {
+        database.ref('quiz').once('value', (snapshot) => {
+            const data = snapshot.val();
+            if (data && data.player1Completed && data.player2Completed) {
+                showFinalResult();
+            }
+        });
+    }
+
+    function calculateCompatibility(player1Answers, player2Answers) {
+        if (!player1Answers || !player2Answers || player1Answers.length === 0 || player2Answers.length === 0) {
+            return { percentage: 0, phrase: "Вы ещё не ответили на все вопросы! 😅" };
+        }
+
+        let matches = 0;
+        const total = Math.min(player1Answers.length, player2Answers.length);
+
+        for (let i = 0; i < total; i++) {
+            if (player1Answers[i] === player2Answers[i]) {
+                matches++;
+            }
+        }
+
+        const percentage = Math.round((matches / 10) * 100);
+
+        let phrase = '';
+        if (percentage >= 90) phrase = "🌟 Вы — идеальная пара! Ваши души танцуют в унисон. Берегите друг друга! ❤️";
+        else if (percentage >= 70) phrase = "💞 Вы очень близки! У вас есть всё, чтобы построить крепкие отношения. Продолжайте в том же духе!";
+        else if (percentage >= 50) phrase = "💕 Вы хорошая пара! Немного больше понимания — и вы будете непобедимы. Общайтесь чаще!";
+        else if (percentage >= 30) phrase = "🤔 Вы разные, но это не плохо! Противоположности притягиваются. Просто учитесь слушать друг друга.";
+        else phrase = "😅 У вас очень разные взгляды на жизнь! Но это делает ваши отношения интересными. Главное — уважать друг друга!";
+
+        return { percentage, phrase };
+    }
+
+    function showFinalResult() {
+        const container = document.getElementById('quizContainer');
+        container.style.display = 'none';
+        const finalDiv = document.getElementById('finalResult');
+        finalDiv.style.display = 'block';
+
+        database.ref('quiz').once('value', (snapshot) => {
+            const data = snapshot.val();
+            if (!data) return;
+
+            const player1Answers = data.player1Answers || [];
+            const player2Answers = data.player2Answers || [];
+            const questions = data.questions || [];
+
+            const { percentage, phrase } = calculateCompatibility(player1Answers, player2Answers);
+
+            let html = `
+                <div style="font-size:20px; font-weight:700; color:#7b4b8c; margin-bottom:12px;">💞 Ваша совместимость</div>
+                <div class="compatibility-big">${percentage}%</div>
+                <div class="compatibility-phrase">${phrase}</div>
+                <div style="font-size:14px; color:#b8a0c4; margin-bottom:16px;">Совпадений: ${Math.round((percentage / 100) * 10)} из 10</div>
+                <div style="font-size:18px; font-weight:600; color:#7b4b8c; margin-bottom:12px;">📋 Сравните ваши ответы</div>
+            `;
+
+            for (let i = 0; i < questions.length; i++) {
+                const q = questions[i];
+                const p1Answer = player1Answers[i] || '—';
+                const p2Answer = player2Answers[i] || '—';
+
+                html += `
+                    <div class="answer-compare">
+                        <div class="q">${i + 1}. ${q.question}</div>
+                        <div class="answers">
+                            <span class="p1">👩 ${data.player1 === 'you' ? 'Я' : 'Он/Она'}: ${p1Answer}</span>
+                            <span class="p2">👨 ${data.player2 === 'me' ? 'Он/Она' : 'Я'}: ${p2Answer}</span>
+                        </div>
+                    </div>
+                `;
+            }
+
+            html += `
+                <button class="upload-btn green" onclick="resetQuiz()" style="margin-top: 12px;">🔄 Играть снова</button>
+            `;
+
+            finalDiv.innerHTML = html;
+        });
+    }
+
+    function listenQuizUpdates() {
+        database.ref('quiz').on('value', (snapshot) => {
+            const data = snapshot.val();
+            if (!data) return;
+
+            if (!currentQuestions.length && data.questions) {
+                currentQuestions = data.questions;
+                if (document.getElementById('quizContainer').style.display !== 'none' && !document.getElementById('quizContainer').innerHTML) {
+                    renderQuiz();
+                }
+            }
+
+            if (data.player1Completed && data.player2Completed) {
+                showFinalResult();
+            }
+        });
+    }
+
+    function resetQuiz() {
+        currentQuestionIndex = 0;
+        playerAnswers = [];
+        quizActive = false;
+        currentQuestions = [];
+
+        database.ref('quiz').remove();
+
+        document.getElementById('playerSelect').style.display = 'block';
+        document.getElementById('quizContainer').style.display = 'none';
+        document.getElementById('finalResult').style.display = 'none';
+        document.getElementById('quizContainer').innerHTML = '';
+        document.getElementById('finalResult').innerHTML = '';
+    }
+
+    // ==============================================================
+    // ЗАПУСК
+    // ==============================================================
+    window.onload = function() {
+        renderCalendar();
+        updateCarousel();
+        loadWords();
+        listenQuizUpdates();
+    };
+</script>
 
 </body>
 </html>
