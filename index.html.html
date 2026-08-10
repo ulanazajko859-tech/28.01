@@ -1,0 +1,228 @@
+html
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Наша история ❤️</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <meta name="theme-color" content="#7b4b8c">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial; background: #f3e8f7; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 16px; }
+        .app { max-width: 420px; width: 100%; background: white; border-radius: 28px; padding: 24px; text-align: center; }
+        h1 { color: #7b4b8c; }
+        .btn { background: #a8d5b5; border: none; padding: 12px 24px; border-radius: 40px; font-size: 16px; cursor: pointer; margin: 6px; }
+        .btn:hover { background: #7dbb8c; }
+        .main-photo { width: 100%; border-radius: 18px; margin-bottom: 16px; }
+        .timer { background: #f7f0fa; border-radius: 18px; padding: 14px; display: flex; justify-content: space-around; margin: 10px 0; }
+        .timer-item { text-align: center; }
+        .timer-number { font-size: 22px; font-weight: bold; color: #7b4b8c; }
+        .timer-label { font-size: 12px; color: #b38cc4; }
+        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 12px 0; }
+        .menu-item { background: #f7f0fa; border-radius: 18px; padding: 16px; cursor: pointer; }
+        .menu-item:hover { background: #f0e6f5; }
+        .menu-item .emoji { font-size: 28px; display: block; }
+        .menu-item .label { font-size: 14px; color: #3d2f44; }
+        .page { display: none; }
+        .page.active { display: block; }
+        .hidden { visibility: hidden; }
+    </style>
+</head>
+<body>
+
+<div class="app">
+
+    <!-- ГЛАВНАЯ -->
+    <div class="page active" id="page1">
+        <img class="main-photo" src="https://i.ibb.co/WvtcsYRx/photo-2026-08-10-16-30-19.jpg" alt="Наше фото">
+        <h1>❤️ Наша история</h1>
+        <p style="color:#b38cc4;">4 года вместе ❤️</p>
+        <div class="timer">
+            <div class="timer-item"><span class="timer-number" id="years">0</span><div class="timer-label">лет</div></div>
+            <div class="timer-item"><span class="timer-number" id="months">0</span><div class="timer-label">мес.</div></div>
+            <div class="timer-item"><span class="timer-number" id="days">0</span><div class="timer-label">дней</div></div>
+            <div class="timer-item"><span class="timer-number" id="hours">0</span><div class="timer-label">часов</div></div>
+        </div>
+        <button class="btn" onclick="goToPage(2)" style="width:100%;">📋 Меню</button>
+    </div>
+
+    <!-- МЕНЮ -->
+    <div class="page" id="page2">
+        <h1>📋 Меню</h1>
+        <p style="color:#b38cc4;">Выбери раздел</p>
+        <div class="menu-grid">
+            <div class="menu-item" onclick="goToPage(3)"><span class="emoji">📖</span><span class="label">Наша история</span></div>
+            <div class="menu-item" onclick="goToPage(4)"><span class="emoji">📸</span><span class="label">Фото</span></div>
+            <div class="menu-item" onclick="goToPage(5)"><span class="emoji">🎵</span><span class="label">Плейлист</span></div>
+            <div class="menu-item" onclick="goToPage(6)"><span class="emoji">💌</span><span class="label">Тёплые слова</span></div>
+            <div class="menu-item" onclick="goToPage(7)"><span class="emoji">💞</span><span class="label">Викторина</span></div>
+            <div class="menu-item" onclick="goToPage(8)"><span class="emoji">📍</span><span class="label">Наши места</span></div>
+        </div>
+        <button class="btn" onclick="goToPage(1)">← На главную</button>
+    </div>
+
+    <!-- НАША ИСТОРИЯ -->
+    <div class="page" id="page3">
+        <h1>📖 Наша история</h1>
+        <p style="color:#b38cc4;">Как всё начиналось ❤️</p>
+        <div style="background:#f7f0fa; border-radius:18px; padding:16px; text-align:left; margin:12px 0;">
+            Мы познакомились ещё в школе, но связала нас зима и шапка ❤️<br><br>
+            С тех пор прошло 4 года, и каждый день с тобой — это маленькое чудо.
+        </div>
+        <button class="btn" onclick="goToPage(2)">← Меню</button>
+        <button class="btn" onclick="goToPage(4)">Дальше →</button>
+    </div>
+
+    <!-- ФОТО -->
+    <div class="page" id="page4">
+        <h1>📸 Наши фото</h1>
+        <p style="color:#b38cc4;">Тёплые мгновения 📷</p>
+        <div style="padding:30px; background:#f7f0fa; border-radius:18px; color:#b38cc4;">📸 Здесь будут ваши фото</div>
+        <button class="btn" onclick="goToPage(2)">← Меню</button>
+        <button class="btn" onclick="goToPage(5)">Дальше →</button>
+    </div>
+
+    <!-- ПЛЕЙЛИСТ -->
+    <div class="page" id="page5">
+        <h1>🎵 Наш плейлист</h1>
+        <p style="color:#b38cc4;">Песня для нас 🎧</p>
+        <iframe src="https://vocaroo.com/embed/1bZvrmJ4ZYAC?autoplay=0" style="width:100%; border-radius:18px; border:none; height:60px;"></iframe>
+        <p style="margin:12px 0; background:#f7f0fa; border-radius:18px; padding:12px;">🥰 Каждый раз, когда звучит эта мелодия, я улыбаюсь и вспоминаю тебя ❤️</p>
+        <button class="btn" onclick="goToPage(2)">← Меню</button>
+        <button class="btn" onclick="goToPage(6)">Дальше →</button>
+    </div>
+
+    <!-- ТЁПЛЫЕ СЛОВА -->
+    <div class="page" id="page6">
+        <h1>💌 Тёплые слова</h1>
+        <p style="color:#b38cc4;">Наши пожелания 💕</p>
+        <div id="wordsContainer" style="margin:12px 0; max-height:200px; overflow-y:auto;"></div>
+        <textarea id="wordsInput" rows="2" style="width:100%; padding:10px; border:2px solid #c9b1d6; border-radius:18px; font-size:14px; margin-bottom:8px;" placeholder="Напиши своё пожелание..."></textarea>
+        <button class="btn" onclick="addWord()" style="width:100%; background:#c62828; color:white;">💌 Отправить</button>
+        <div id="wordsStatus"></div>
+        <button class="btn" onclick="goToPage(2)">← Меню</button>
+        <button class="btn" onclick="goToPage(7)">Дальше →</button>
+    </div>
+
+    <!-- ВИКТОРИНА -->
+    <div class="page" id="page7">
+        <h1>💞 Викторина</h1>
+        <p style="color:#b38cc4;">Скоро будет готово 🧠</p>
+        <div style="padding:30px; background:#f7f0fa; border-radius:18px; color:#b38cc4;">💞 Викторина будет добавлена позже</div>
+        <button class="btn" onclick="goToPage(2)">← Меню</button>
+        <button class="btn" onclick="goToPage(8)">Дальше →</button>
+    </div>
+
+    <!-- НАШИ МЕСТА -->
+    <div class="page" id="page8">
+        <h1>📍 Наши места</h1>
+        <p style="color:#b38cc4;">Где мы были счастливы 🌍</p>
+        <div style="background:white; border-radius:18px; padding:12px; margin:8px 0; border:2px solid #f0e6f5; text-align:left;">
+            <span style="font-size:24px;">🏫</span> <b>Школа</b> — Здесь мы встретились
+        </div>
+        <div style="background:white; border-radius:18px; padding:12px; margin:8px 0; border:2px solid #f0e6f5; text-align:left;">
+            <span style="font-size:24px;">🌳</span> <b>Городской парк</b> — Первая прогулка
+        </div>
+        <div style="background:white; border-radius:18px; padding:12px; margin:8px 0; border:2px solid #f0e6f5; text-align:left;">
+            <span style="font-size:24px;">☕</span> <b>Кафе "Встреча"</b> — Первое свидание
+        </div>
+        <div style="background:white; border-radius:18px; padding:12px; margin:8px 0; border:2px solid #f0e6f5; text-align:left;">
+            <span style="font-size:24px;">🏠</span> <b>Твой дом</b> — Где я поняла, что люблю
+        </div>
+        <button class="btn" onclick="goToPage(2)">← Меню</button>
+    </div>
+
+</div>
+
+<script>
+    function goToPage(n) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById('page' + n).classList.add('active');
+    }
+
+    function updateTimer() {
+        const start = new Date('2023-01-28T00:00:00');
+        const now = new Date();
+        let diff = (now - start) / 1000;
+        document.getElementById('years').textContent = Math.floor(diff / (365.25 * 24 * 3600));
+        diff %= 365.25 * 24 * 3600;
+        document.getElementById('months').textContent = Math.floor(diff / (30.44 * 24 * 3600));
+        diff %= 30.44 * 24 * 3600;
+        document.getElementById('days').textContent = Math.floor(diff / (24 * 3600));
+        diff %= 24 * 3600;
+        document.getElementById('hours').textContent = Math.floor(diff / 3600);
+    }
+    updateTimer();
+    setInterval(updateTimer, 60000);
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyCNY4JjnLGt5Nr0h3EKeQ3pqq6DOKpLJos",
+        authDomain: "love-history-eb47d.firebaseapp.com",
+        databaseURL: "https://love-history-eb47d-default-rtdb.europe-west1.firebasedatabase.app",
+        projectId: "love-history-eb47d",
+        storageBucket: "love-history-eb47d.firebasestorage.app",
+        messagingSenderId: "247930053843",
+        appId: "1:247930053843:web:c0e8f05faf877cf2dfa026"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+
+    function loadWords() {
+        const container = document.getElementById('wordsContainer');
+        database.ref('words').on('value', (snapshot) => {
+            container.innerHTML = '';
+            const data = snapshot.val();
+            if (!data) {
+                container.innerHTML = '<div style="color:#b38cc4;">💌 Здесь появятся ваши тёплые слова...</div>';
+                return;
+            }
+            const keys = Object.keys(data).reverse();
+            keys.forEach(key => {
+                const text = data[key].text || data[key];
+                const div = document.createElement('div');
+                div.style.cssText = 'background:#f7f0fa; border-radius:18px; padding:12px; margin-bottom:8px; text-align:left;';
+                div.innerHTML = `${text} <button onclick="deleteWord('${key}')" style="float:right; background:#c9b1d6; border:none; border-radius:30px; padding:4px 12px; cursor:pointer;">🗑️</button><div style="clear:both;"></div>`;
+                container.appendChild(div);
+            });
+        });
+    }
+
+    function addWord() {
+        const input = document.getElementById('wordsInput');
+        const status = document.getElementById('wordsStatus');
+        const text = input.value.trim();
+        if (!text) {
+            status.textContent = '❌ Напиши что-нибудь!';
+            status.style.color = '#c62828';
+            return;
+        }
+        database.ref('words').push({ text: text })
+            .then(() => {
+                status.textContent = '💌 Отправлено! ❤️';
+                status.style.color = '#7dbb8c';
+                input.value = '';
+            })
+            .catch(error => {
+                status.textContent = '❌ Ошибка: ' + error.message;
+                status.style.color = '#c62828';
+            });
+    }
+
+    function deleteWord(key) {
+        if (confirm('Удалить это сообщение?')) {
+            database.ref('words/' + key).remove();
+        }
+    }
+
+    loadWords();
+</script>
+
+<script src="https://www.gstatic.com/firebasejs/12.17.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.17.1/firebase-database-compat.js"></script>
+
+</body>
+</html>
+
